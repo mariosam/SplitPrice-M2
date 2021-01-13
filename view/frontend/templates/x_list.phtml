@@ -1,0 +1,69 @@
+<?php
+/**
+ * HTML x_list
+ * 
+ * @author      MarioSAM <eu@mariosam.com.br>
+ * @version     1.0.0
+ * @date        2020/11
+ * @copyright   Blog do Mario SAM
+ * 
+ * read by JS all the prices and calculate the value splits dinamically.
+ */
+
+/** inicializando model e variaveis */
+$viewModel = $block->getViewModel();
+
+if ( $viewModel->getEnabled() ) {
+
+if ( $viewModel->getShowInCatalog() ) {
+
+$_parcelas = $viewModel->getProductPriceX();
+$_taxas = $viewModel->getProductPriceTax();
+$_position = $viewModel->getCatalogPosition(); //por enquanto sem uso!
+?>
+<?php /* CSS styles */ ?>
+<style type="text/css">
+<?php echo $viewModel->getCssCustomCatalog(); ?>
+</style>
+
+<?php /* Javascript controls */ ?>
+<script type="text/javascript">
+//<![CDATA[
+require([
+    'jquery',
+    'Magento_Catalog/js/price-utils'
+], function ($, priceUtils) {
+    $(document).ready(function () {
+        <?php /* inicializa parametros do php no javascript (jquery) */ ?>
+        var parcelas = <?php echo $_parcelas; ?>;
+        var parcelado = 0;
+        var taxas = <?php echo $_taxas; ?>;
+        var formatoPreco = <?php echo $this->helper('Magento\Tax\Helper\Data')->getPriceFormat($block->getStore()); ?>;
+
+        <?php /* para cada preco encontrado dentro da pagina verifique */ ?>
+        $('.price').each(function() {
+            var valor = $(this).text();
+            valor = valor.replace(/([^\d.,])+/gim, ''); //remover os simbolos monetarios
+
+            <?php /* calcula as parcelas (com taxas se necessario) */ ?>
+            parcelado = valor / parcelas;
+            if ( taxas > 0 ) { parcelado = parcelado + (parcelado/100 * taxas); }
+
+            <?php /* formata o preco de saida novamente */ ?>
+            if ( valor > 0 ) {
+                var price = priceUtils.formatPrice( parcelado, formatoPreco );
+                $(this).append( "<p><?= __('or %1x of ',$_parcelas) ?>"+price+"</p>" );
+            } 
+        });
+        
+        <?php echo $viewModel->getJsCustomCatalog(); ?>
+    });
+});
+//]]>
+</script>
+  
+<?php /* HTLM displays  */ ?>
+<div id="x_list_prices"></div>
+
+<?php } /* getShowInCatalog */ ?>
+<?php } /* getEnabled */ ?>

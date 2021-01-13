@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * XML config
+ * 
+ * @author      MarioSAM <eu@mariosam.com.br>
+ * @version     1.0.0
+ * @date        2020/11
+ * @copyright   Blog do Mario SAM
+ * 
+ * Set basic information to fields of this module.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <!-- Set default values for fields of this module -->
+        <splitprice>
+            <split_price_config>
+                <enabled>0</enabled>
+                <maximum_splits>2</maximum_splits>
+                <show_all>0</show_all>
+                <base_price></base_price>
+                <add_tax></add_tax>
+            </split_price_config>
+            <split_price_presentation>
+                <show_catalog>0</show_catalog>
+                <show_catalog_position>.price</show_catalog_position>
+                <css_catalog><![CDATA[.price p {}]]></css_catalog>
+                <js_catalog></js_catalog>
+                <show_product>0</show_product>
+                <show_product_position>.price-container</show_product_position>
+                <css_product><![CDATA[#x_details_prices p {}]]></css_product>
+                <js_product></js_product>
+                <show_cart>0</show_cart>
+                <show_cart_position>#cart-totals</show_cart_position>
+                <css_cart><![CDATA[#x_cart_prices p {}]]></css_cart>
+                <js_cart></js_cart>
+            </split_price_presentation>
+            <split_price_next_version>
+               <my_contact>eu@mariosam.com.br</my_contact>
+            </split_price_next_version>
+        </splitprice>
+    </default>
+</config>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * XML catalog_category_view
+ * 
+ * @author      MarioSAM <eu@mariosam.com.br>
+ * @version     1.0.0
+ * @date        2020/11
+ * @copyright   Blog do Mario SAM
+ * 
+ * Insert the new file into the Magento theme to load the code.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <!-- load the module page to catalog list page -->
+            <block class="Magento\Framework\View\Element\Template" name="split_x_price" template="MarioSAM_SplitPrice::x_list.phtml" before="-" ifconfig="splitprice/split_price_presentation/show_catalog">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">MarioSAM\SplitPrice\ViewModel\SplitPriceViewModel</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,77 @@
+<?php
+/**
+ * HTML x_cart
+ * 
+ * @author      MarioSAM <eu@mariosam.com.br>
+ * @version     1.0.0
+ * @date        2020/11
+ * @copyright   Blog do Mario SAM
+ * 
+ * read the grand total value dinamically using JS and calcule the splits values.
+ */
+
+/** inicializando model e variaveis */
+$viewModel = $block->getViewModel();
+
+if ( $viewModel->getEnabled() ) {
+
+if ( $viewModel->getShowInCart() ) {
+
+$_parcelas = $viewModel->getProductPriceX();
+$_price = $viewModel->getCartPrice();
+$_taxas = $viewModel->getProductPriceTax();
+$_position = $viewModel->getCartPosition();
+
+if ( $_price > 0 ) { 
+?>
+<?php /* CSS styles */ ?>
+<style type="text/css">
+<?php echo $viewModel->getCssCustomCart(); ?>
+</style>
+
+<?php /* Javascript controls */ ?>
+<script type="text/javascript">
+//<![CDATA[
+require([
+    'jquery',
+    'Magento_Catalog/js/price-utils'
+], function ($, priceUtils) {
+    $(document).ready(function () {
+        <?php /* onde na tela sera posicionado o resultado das parcelas */ ?>
+        $("#x_cart_prices").appendTo( $("<?php echo $_position; ?>") );
+
+        <?php /* inicializa parametros do php no javascript (jquery) */ ?>
+        var parcelas = <?php echo $_parcelas; ?>;
+        var parcelado = 0;
+        var taxas = <?php echo $_taxas; ?>;
+        var formatoPreco = <?php echo $this->helper('Magento\Tax\Helper\Data')->getPriceFormat($block->getStore()); ?>;
+
+        <?php /* monitora alteracoes no preco final do carrinho */ ?>
+        $('body').on('DOMSubtreeModified', '.price', function() {
+            <?php /* css class onde esta o preco, talvez seja melhor dinamizar */ ?>
+            var valor = $('.grand .amount .price').text();
+            valor = valor.replace(/([^\d.,])+/gim, ''); //remover os simbolos monetarios
+
+            <?php /* calcula as parcelas (com taxas se necessario) */ ?>
+            parcelado = valor / parcelas;
+            if ( taxas > 0 ) { parcelado = parcelado + (parcelado/100 * taxas); }
+
+            <?php /* precisa formatar o preco de saida novamente */ ?>
+            var price = priceUtils.formatPrice( parcelado, formatoPreco );
+
+            $("#x_cart_prices").text("");
+            $("#x_cart_prices").append( "<p><span><?= __('Pay in %1x of ',$_parcelas) ?>"+price+"</span></p>" );
+        });
+
+        <?php echo $viewModel->getJsCustomCart(); ?>
+    });
+});
+//]]>
+</script>
+
+<?php /* HTLM displays  */ ?>
+<div id="x_cart_prices"></div>
+
+<?php } /* $_price > 0 */ ?>
+<?php } /* getShowInCart */ ?>
+<?php } /* getEnabled */ ?>

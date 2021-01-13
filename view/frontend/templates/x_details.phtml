@@ -1,0 +1,63 @@
+<?php
+/**
+ * HTML x_details
+ * 
+ * @author      MarioSAM <eu@mariosam.com.br>
+ * @version     1.0.0
+ * @date        2020/11
+ * @copyright   Blog do Mario SAM
+ * 
+ * show the split values for price in product detail page using JS to define local.
+ */
+
+/** inicializando model e variaveis */
+$viewModel = $block->getViewModel();
+
+if ( $viewModel->getEnabled() ) {
+
+if ( $viewModel->getShowInProduct() ) {
+
+$_parcelas = $viewModel->getProductPriceX();
+$_price = $viewModel->getProductPrice();
+$_taxas = $viewModel->getProductPriceTax();
+$_position = $viewModel->getProductPosition();
+
+if ( $_price > 0 ) { 
+
+/** usado para formatar saida do preco */
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$priceHelper = $objectManager->create('Magento\Framework\Pricing\Helper\Data');
+?>
+<?php /* CSS styles */ ?>
+<style type="text/css">
+<?php echo $viewModel->getCssCustomProduct(); ?>
+</style>
+
+<?php /* Javascript controls */ ?>
+<script type="text/javascript">
+//<![CDATA[
+require([
+    'jquery'
+], function ($) {
+    $(document).ready(function () {
+        <?php /* identifica onde ser inserido a msg (splits values) */ ?>
+        var primeiro = $("<?php echo $_position; ?>").first();
+        $("#x_details_prices").appendTo( primeiro );
+
+        <?php echo $viewModel->getJsCustomProduct(); ?>
+    });
+});
+//]]>
+</script>
+
+<?php /* HTLM displays  */ ?>
+<?php $_parcelado = $_price/$_parcelas; ?>
+<?php if ( $_taxas > 0 ) { $_parcelado = $_parcelado + ($_parcelado/100 * $_taxas); } ?>
+<?php //mostrar todas as parcelas??? ?>
+<div id="x_details_prices">
+    <p><span><?= __('or %1x of %2',$_parcelas,$priceHelper->currency($_parcelado)) ?></span></p>
+</div>
+
+<?php } /* $_price > 0 */ ?>
+<?php } /* getShowInProduct */ ?>
+<?php } /* getEnabled */ ?>

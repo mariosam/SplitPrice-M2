@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * XML system
+ * 
+ * @author      MarioSAM <eu@mariosam.com.br>
+ * @version     1.0.0
+ * @date        2020/11
+ * @copyright   Blog do Mario SAM
+ * 
+ * This XML prepare the admin page config of this module.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <!-- Tab is the menu option at left [MARIOSAM] -->
+        <tab id="mariosam" translate="label" sortOrder="250">
+            <label>Mario SAM</label>
+        </tab>
+        <!-- Section is a sub-menu option inside Tab. -->
+        <section id="splitprice" translate="label" sortOrder="600" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Split Price</label>
+            <tab>mariosam</tab>
+            <!-- resource is to ACL -->
+            <resource>MarioSAM_SplitPrice::module_splitprice_config</resource>
+            <!-- Group is the box at right with your config options. -->
+            <group id="split_price_config" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Split Price Settings</label>
+                <comment><![CDATA[How to use SplitPrice? Access the Mario SAM blog and read the post.]]></comment>
+                <!-- Turn On or Turn off this module -->
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Module Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <!-- Set the number of splits price -->
+                <field id="maximum_splits" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Maximum Splits</label>
+                    <validate>required-entry validate-number</validate>
+                    <comment>ex.: 2x; 6x; 12x; (numbers only)</comment>
+                </field>
+                <!-- Set if need to show all splits numbers -->
+                <field id="show_all" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show all split values</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Show all splits price until the maximum.</comment>
+                </field>
+                <!-- Set what kind of price will be calculate -->
+                <field id="base_price" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Apply on Price</label>
+                    <source_model>MarioSAM\SplitPrice\Model\Config\Source\Prices</source_model>
+                    <comment>Base of calculation.</comment>
+                </field>
+                <!-- Set if need to add tax in split prices -->
+                <field id="add_tax" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Add Tax</label>
+                    <validate>validate-number</validate>
+                    <comment>ex.: 2%; 5%; 10%; (numbers only)</comment>
+                </field>
+            </group>
+            <!-- Group is the box at right with your config options. -->
+            <group id="split_price_presentation" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Split Price Presentation</label>
+                <!-- Set if the split is ON in the catalog list -->
+                <field id="show_catalog" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show in Catalog List?</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>ex.: Search results; Categories; Home;</comment>
+                </field>
+                <!-- Set the place where the message will be displayed -->
+                <field id="show_catalog_position" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Catalog Block Position</label>
+                    <validate>required-entry</validate>
+                    <comment>Block name reference in your theme.</comment>
+                    <depends>
+                        <field id="splitprice/split_price_presentation/show_catalog">1</field>
+                    </depends>
+                </field>
+                <!-- Set custom CSS to catalog list -->
+                <field id="css_catalog" translate="label" type="textarea" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Custom CSS</label>
+                    <comment>You can add personal css script.</comment>
+                    <depends>
+                        <field id="splitprice/split_price_presentation/show_catalog">1</field>
+                    </depends>
+                </field>
+                <!-- Set custom JS to catalog list -->
+                <field id="js_catalog" translate="label" type="textarea" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Custom JS</label>
+                    <comment>You can add personal javascript code.</comment>
+                    <depends>
+                        <field id="splitprice/split_price_presentation/show_catalog">1</field>
+                    </depends>
+                </field>
+                <!-- Set if the split is ON in the product page -->
+                <field id="show_product" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show in Product Page?</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>When you see the page details of the product.</comment>
+                </field>
+                <!-- Set the place where the message will be displayed -->
+                <field id="show_product_position" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Page Block Position</label>
+                    <validate>required-entry</validate>
+                    <comment>CSS reference in your theme.</comment>
+                    <depends>
+                        <field id="splitprice/split_price_presentation/show_product">1</field>
+                    </depends>
+                </field>
+                <!-- Set custom CSS to product page -->
+                <field id="css_product" translate="label" type="textarea" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Custom CSS</label>
+                    <comment>You can add personal css script.</comment>
+                    <depends>
+                        <field id="splitprice/split_price_presentation/show_product">1</field>
+                    </depends>
+                </field>
+                <!-- Set custom JS to product page -->
+                <field id="js_product" translate="label" type="textarea" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Custom JS</label>
+                    <comment>You can add personal javascript code.</comment>
+                    <depends>
+                        <field id="splitprice/split_price_presentation/show_product">1</field>
+                    </depends>
+                </field>
+                <!-- Set if the split is ON in the shopping cart -->
+                <field id="show_cart" translate="label" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show in Shoppnig Cart?</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>When you see the shopping cart page.</comment>
+                </field>
+                <!-- Set the place where the message will be displayed -->
+                <field id="show_cart_position" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Cart Shopping Block Position</label>
+                    <validate>required-entry</validate>
+                    <comment>Block name reference in your theme.</comment>
+                    <depends>
+                        <field id="splitprice/split_price_presentation/show_cart">1</field>
+                    </depends>
+                </field>
+                <!-- Set custom CSS to shopping cart -->
+                <field id="css_cart" translate="label" type="textarea" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Custom CSS</label>
+                    <comment>You can add personal css script.</comment>
+                    <depends>
+                        <field id="splitprice/split_price_presentation/show_cart">1</field>
+                    </depends>
+                </field>
+                <!-- Set custom JS to shopping cart -->
+                <field id="js_cart" translate="label" type="textarea" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Custom JS</label>
+                    <comment>You can add personal javascript code.</comment>
+                    <depends>
+                        <field id="splitprice/split_price_presentation/show_cart">1</field>
+                    </depends>
+                </field>
+            </group>
+            <!-- Group to talk with the clients of this module. -->
+            <group id="split_price_next_version" translate="label" type="text" sortOrder="999" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Expected for the next SplitPrice versions</label>
+                <comment>
+                    <![CDATA[Below a list of things that I expect to implement in the next version of SplitPrice module:]]>
+                </comment>
+                <field id="my_contact" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>My Contact</label>
+                    <comment>You can talk with me and/or hire me!</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

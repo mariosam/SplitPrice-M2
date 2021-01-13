@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * XML module
+ * 
+ * @author      MarioSAM <eu@mariosam.com.br>
+ * @version     1.0.0
+ * @date        2020/11
+ * @copyright   Blog do Mario SAM
+ * 
+ * This XML declare the name of the module.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="MarioSAM_SplitPrice" setup_version="1.0.0" />
+</config>
