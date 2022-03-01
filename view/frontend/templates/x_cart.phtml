@@ -51,6 +51,9 @@ require([
             <?php /* css class onde esta o preco, talvez seja melhor dinamizar */ ?>
             var valor = $('.grand .amount .price').text();
             valor = valor.replace(/([^\d.,])+/gim, ''); //remover os simbolos monetarios
+            if (isNaN(valor) || isNaN(parseFloat(valor))) {
+                valor = valor.replace(/\./g, '').replace(/\,/g, '.');
+            }
 
             <?php /* calcula as parcelas (com taxas se necessario) */ ?>
             parcelado = valor / parcelas;
